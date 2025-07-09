@@ -1,10 +1,10 @@
 hostname {{ obj.name }}
 
-{% for interface in obj.interfaces.all() %}
+{% for interface in obj.interfaces.all %}
 interface {{ interface.name }}
-{% set ip = interface.ip_addresses.first %}
-{% if ip %}
- ip address {{ ip.address }}
+{% set ips = interface.ip_addresses.all() %}
+{% if ips %}
+ ip address {{ ips[0].address }}
 {% else %}
  no ip address
 {% endif %}
