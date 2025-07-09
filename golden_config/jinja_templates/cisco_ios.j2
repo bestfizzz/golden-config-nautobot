@@ -2,14 +2,18 @@ hostname {{ obj.name }}
 
 {% for interface in obj.interfaces.all %}
 interface {{ interface.name }}
-{% if interface.ip_addresses %}
- ip address {{ interface.ip_addresses.0.address }}
+
+{% set ip = interface.ip_addresses | first %}
+{% if ip %}
+ ip address {{ ip.address }}
 {% else %}
  no ip address
 {% endif %}
+
 {% if interface.enabled %}
  no shutdown
 {% else %}
  shutdown
 {% endif %}
+
 {% endfor %}
